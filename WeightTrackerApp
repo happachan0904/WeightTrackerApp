@@ -1,0 +1,77 @@
+// このアプリで使う道具（部品や操作のしかた）をあらかじめ読み込む
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+// 画面に表示するためのパーツ（ボタンや入力欄など）を使えるようにする
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+
+public class WeightTrackerApp { // 「体重記録アプリ」の本体
+    public static void main(String[] args) { 
+
+        // アプリのウィンドウ（画面）を作り、名前をつける
+        JFrame frame = new JFrame("今日の体重記録アプリ");
+
+        // ウィンドウの大きさを設定する（横400×縦300）
+        frame.setSize(400, 300);
+
+        // ×ボタンを押したときにアプリを終了するようにする
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        // 体重を入力するための枠（横に細長い入力欄）を作る
+        JTextField weightInput = new JTextField(10);
+
+        // 「追加」という名前のボタンを作る（これを押すと記録される）
+        JButton addButton = new JButton("追加");
+
+        // 入力された体重を覚えておくための箱を用意する
+        DefaultListModel<String> weightListModel = new DefaultListModel<>();
+
+        // 入力された体重を画面に一覧で表示するための枠を作る
+        JList<String> weightList = new JList<>(weightListModel);
+
+        // 画面の上の方に表示するエリア（入力欄とボタンをまとめる）を作る
+        JPanel panel = new JPanel();
+
+        // 入力欄の左に表示する「今日の体重：」という文字ラベルを追加する
+        panel.add(new JLabel("今日の体重:"));
+
+        // 入力欄を追加する
+        panel.add(weightInput);
+
+        // 「追加」ボタンを追加する
+        panel.add(addButton);
+
+        // 上で作ったパネルをウィンドウの上の方に配置する
+        frame.add(panel, BorderLayout.NORTH);
+
+        // 入力された体重の記録を真ん中に一覧表示する（スクロールもできる）
+        frame.add(new JScrollPane(weightList), BorderLayout.CENTER);
+
+        // 「追加」ボタンが押されたときの動き（何をするか）を決める
+        addButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                // 入力欄に書かれた内容を取り出す
+                String input = weightInput.getText();
+
+                // もし空欄でなければ、下の一覧に体重を追加する
+                if (!input.isEmpty()) {
+                    weightListModel.addElement("体重：" + input + "kg");
+
+                    // 入力欄を空にして、次の入力に備える
+                    weightInput.setText("");
+                }
+            }
+        });
+
+        // ウィンドウを画面に表示する（アプリをスタートさせる）
+        frame.setVisible(true);
+    }
+}
