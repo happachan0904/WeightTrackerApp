@@ -2,6 +2,7 @@
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;  //
 
 // 画面に表示するためのパーツ（ボタンや入力欄など）を使えるようにする
 import javax.swing.DefaultListModel;
@@ -61,10 +62,12 @@ public class WeightTrackerApp { // 「体重記録アプリ」の本体
                 // 入力欄に書かれた内容を取り出す
                 String input = weightInput.getText();
 
-                // もし空欄でなければ、下の一覧に体重を追加する
                 if (!input.isEmpty()) {
-                    weightListModel.addElement("体重：" + input + "kg");
+                    // 今日の日付を取得
+                    LocalDate today = LocalDate.now();
 
+                    // 「日付：体重 xxkg」の形で一覧に追加
+                    weightListModel.addElement(today + "：体重 " + input + "kg");
                     // 入力欄を空にして、次の入力に備える
                     weightInput.setText("");
                 }
